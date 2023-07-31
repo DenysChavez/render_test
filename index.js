@@ -1,11 +1,7 @@
 const express = require("express");
 const cors = require("cors")
 require('dotenv').config()
-
 const app = express();
-
-app.use(cors())
-app.use(express.static('build'))
 
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method);
@@ -18,8 +14,11 @@ const requestLogger = (request, response, next) => {
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
 }
+
+app.use(cors())
 app.use(express.json())
 app.use(requestLogger);
+app.use(express.static('build'))
 
 const generateId = () => {
   const maxId = notes.length > 0 ? Math.max(...notes.map((n) => n.id)) : 0;
